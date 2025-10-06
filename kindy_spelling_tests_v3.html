@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kindy Spelling — 20 Tests (30 words) + Celebration</title>
+<style>
+  :root{
+    --card:#ffffff; --ink:#0f172a; --muted:#64748b;
+    --brand:#2563eb; --brand2:#22c55e; --ok:#16a34a; --bad:#ef4444;
+    --shadow:0 10px 30px rgba(0,0,0,.08); --r:20px;
+  }
+  *{box-sizing:border-box}
+  /* ---------- Fun themes (20) applied on <body> via .theme-N ---------- */
+  body{ margin:0; font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, "Inter", Arial, sans-serif; color:var(--ink); padding:24px; display:flex; align-items:center; justify-content:center; min-height:100vh; transition: background .4s ease; }
+  .theme-1 { background: radial-gradient(circle at 20% 20%, #ffecd2, #fcb69f 60%), linear-gradient(120deg,#ffecd2,#fcb69f); }
+  .theme-2 { background: radial-gradient(circle at 80% 10%, #d4fc79, #96e6a1 60%), linear-gradient(160deg,#d4fc79,#96e6a1); }
+  .theme-3 { background: radial-gradient(circle at 10% 90%, #a1c4fd, #c2e9fb 60%), linear-gradient(200deg,#a1c4fd,#c2e9fb); }
+  .theme-4 { background: radial-gradient(circle at 85% 70%, #fbc2eb, #a6c1ee 60%), linear-gradient(220deg,#fbc2eb,#a6c1ee); }
+  .theme-5 { background: radial-gradient(circle at 30% 30%, #fddb92, #d1fdff 60%), linear-gradient(240deg,#fddb92,#d1fdff); }
+  .theme-6 { background: radial-gradient(circle at 70% 20%, #84fab0, #8fd3f4 60%), linear-gradient(120deg,#84fab0,#8fd3f4); }
+  .theme-7 { background: radial-gradient(circle at 30% 80%, #fccb90, #d57eeb 60%), linear-gradient(140deg,#fccb90,#d57eeb); }
+  .theme-8 { background: radial-gradient(circle at 60% 15%, #fff1eb, #ace0f9 60%), linear-gradient(160deg,#fff1eb,#ace0f9); }
+  .theme-9 { background: radial-gradient(circle at 40% 80%, #ff9a9e, #fecfef 60%), linear-gradient(180deg,#ff9a9e,#fecfef); }
+  .theme-10{ background: radial-gradient(circle at 10% 20%, #f6d365, #fda085 60%), linear-gradient(200deg,#f6d365,#fda085); }
+  .theme-11{ background: radial-gradient(circle at 85% 80%, #a18cd1, #fbc2eb 60%), linear-gradient(220deg,#a18cd1,#fbc2eb); }
+  .theme-12{ background: radial-gradient(circle at 25% 25%, #ffecd2, #fcb69f 60%), linear-gradient(240deg,#ffecd2,#fcb69f); }
+  .theme-13{ background: radial-gradient(circle at 60% 60%, #a1c4fd, #c2e9fb 60%), linear-gradient(260deg,#a1c4fd,#c2e9fb); }
+  .theme-14{ background: radial-gradient(circle at 70% 15%, #d4fc79, #96e6a1 60%), linear-gradient(120deg,#d4fc79,#96e6a1); }
+  .theme-15{ background: radial-gradient(circle at 30% 70%, #fbc2eb, #a6c1ee 60%), linear-gradient(140deg,#fbc2eb,#a6c1ee); }
+  .theme-16{ background: radial-gradient(circle at 80% 30%, #fddb92, #d1fdff 60%), linear-gradient(160deg,#fddb92,#d1fdff); }
+  .theme-17{ background: radial-gradient(circle at 35% 60%, #84fab0, #8fd3f4 60%), linear-gradient(180deg,#84fab0,#8fd3f4); }
+  .theme-18{ background: radial-gradient(circle at 50% 20%, #fccb90, #d57eeb 60%), linear-gradient(200deg,#fccb90,#d57eeb); }
+  .theme-19{ background: radial-gradient(circle at 20% 80%, #fff1eb, #ace0f9 60%), linear-gradient(220deg,#fff1eb,#ace0f9); }
+  .theme-20{ background: radial-gradient(circle at 80% 80%, #ff9a9e, #fecfef 60%), linear-gradient(240deg,#ff9a9e,#fecfef); }
+
+  .app{ width:min(1100px,100%); background:var(--card); border-radius:var(--r); box-shadow:var(--shadow);
+        padding:clamp(14px,2.6vw,28px); border:1px solid #e5e7eb; }
+  h1{margin:0 0 6px 0; font-size:clamp(22px,3.4vw,32px)}
+  .subtitle{color:var(--muted); margin-bottom:16px}
+  .topbar{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  select,button,input[type="text"]{ font-size:clamp(16px,2.4vw,20px); padding:12px 14px; border-radius:14px; border:1px solid #e5e7eb; background:#fff; }
+  button{ cursor:pointer; border:none; color:#fff; background:var(--brand); font-weight:700; box-shadow:0 8px 18px rgba(37,99,235,.18) }
+  button.ghost{background:#fff; color:#0f172a; border:1px solid #e5e7eb; box-shadow:none}
+  button.secondary{background:#111827}
+  button:disabled{opacity:.55; cursor:not-allowed}
+  .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  .card{background:#fbfdff; border:1px solid #eef2f7; border-radius:16px; padding:14px}
+  .progress{height:12px; background:#eef2f7; border-radius:999px; overflow:hidden}
+  .bar{height:100%; width:0%; background:linear-gradient(90deg,var(--brand),var(--brand2)); transition:width .25s ease}
+  .status{min-height:32px; font-weight:700; padding:8px 10px; border-radius:12px; display:inline-flex; align-items:center; gap:8px}
+  .ok{color:#065f46; background:#ecfdf5; border:1px solid #a7f3d0}
+  .bad{color:#7f1d1d; background:#fef2f2; border:1px solid #fecaca}
+  .big{font-size:clamp(18px,2.6vw,24px)}
+  .grow{flex:1 1 auto}
+  .pill{background:#eef2ff; color:#3730a3; padding:6px 10px; border-radius:999px; font-weight:700}
+  .last{background:#f1f5f9; padding:6px 10px; border-radius:12px}
+  .hint{color:var(--muted); font-size:14px}
+  .grid{display:grid; grid-template-columns:1fr; gap:12px}
+  .emoji-card{display:flex; align-items:center; gap:14px}
+  .emoji-bubble{
+    font-size:60px; width:92px; height:92px; display:flex; align-items:center; justify-content:center;
+    border-radius:22px; background:radial-gradient(55% 55% at 40% 35%,#fff 0%,#f3f4f6 100%); border:1px solid #e5e7eb;
+  }
+  .scope{font-size:14px; color:#334155}
+  .scope b{color:#0f172a}
+  .switch{display:inline-flex; align-items:center; gap:8px}
+  .switch input{width:20px; height:20px}
+  .summary-list{margin:0; padding-left:18px}
+  .footer{display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; color:var(--muted); font-size:14px}
+
+  /* Celebration overlay */
+  #celebrate {
+    position: fixed; inset: 0; display: none; align-items:center; justify-content:center;
+    background: rgba(0,0,0,0.3); z-index: 9999;
+  }
+  #celebrate .box {
+    background:#ffffff; border-radius:20px; padding:24px 28px; text-align:center; box-shadow: var(--shadow);
+    border: 2px solid #e5e7eb;
+  }
+  #celebrate h2 { margin: 0 0 8px 0; font-size: clamp(22px, 3vw, 30px); }
+  #celebrate p { margin: 0; color:#334155 }
+  .confetti {
+    position: fixed; top:-10px; width:10px; height:14px;
+    background: red; opacity: 0.9; z-index: 10000;
+    animation: fall linear forwards;
+  }
+  @keyframes fall {
+    0% { transform: translateY(-10px) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(720deg); }
+  }
+</style>
+</head>
+<body class="theme-1">
+  <div id="celebrate">
+    <div class="box">
+      <h2>🎉 Perfect score!</h2>
+      <p>Amazing work — you got everything correct!</p>
+    </div>
+  </div>
+
+  <div class="app" role="application" aria-label="Kindergarten Spelling Tests — 20 Tests">
+    <h1>Kindy Spelling — Super Set</h1>
+    <div class="subtitle">20 tests × 30 words. Fun backgrounds per test. Emoji hints. “Correct/Incorrect” feedback. Celebration for 100%!</div>
+
+    <div class="topbar">
+      <label for="testPicker" class="big" style="font-weight:700">Choose a test:</label>
+      <select id="testPicker" class="big"></select>
+      <span id="scope" class="scope"></span>
+      <span id="lastScore" class="last"></span>
+      <div class="switch">
+        <input type="checkbox" id="showPics" checked/>
+        <label for="showPics">Show picture hints</label>
+      </div>
+      <button id="startBtn" class="big">Start / Restart</button>
+      <button id="nextTestBtn" class="big ghost">Next Test ➜</button>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <div class="row" style="justify-content:space-between">
+        <div class="big">Word <span id="indexNow">0</span> of <span id="indexTotal">0</span></div>
+        <span class="pill" id="liveScore">Score: 0</span>
+      </div>
+      <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
+    </div>
+
+    <div class="grid" style="margin-top:12px">
+      <div class="card emoji-card">
+        <div class="emoji-bubble" id="emojiBubble" aria-hidden="true">⭐</div>
+        <div class="grow">
+          <div class="row" style="justify-content:space-between">
+            <div class="row">
+              <button id="speakBtn" class="big" title="Hear the word + sentence">🔊 Play</button>
+              <button id="repeatBtn" class="big ghost" title="Repeat">Repeat</button>
+              <button id="slowBtn" class="big ghost" title="Slower">Slow</button>
+              <div class="hint">Tip: press Enter to check</div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:8px">
+            <input id="answer" class="big grow" type="text" placeholder="Type the word here" autocomplete="off" inputmode="latin"/>
+            <button id="checkBtn" class="big">Check</button>
+            <button id="skipBtn" class="big secondary">Skip</button>
+          </div>
+          <div id="feedback" class="status" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div id="summaryCard" class="card" style="display:none">
+        <h3 class="big" style="margin:0 0 6px 0">Test Summary</h3>
+        <div id="summaryStats" style="margin-bottom:6px"></div>
+        <div id="mistakeWrap" style="display:none">
+          <div class="hint" style="margin:8px 0 4px 0">Words to practise:</div>
+          <ul id="mistakeList" class="summary-list"></ul>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button id="retryBtn" class="big">Retry This Test</button>
+          <button id="gotoNextBtn" class="big ghost">Start Next Test ➜</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer" style="margin-top:10px">
+      <span>🎯 Uses your browser’s voice. If no audio, check volume or try another browser.</span>
+      <span id="ttsStatus"></span>
+    </div>
+  </div>
+
+<script>
+(function(){
+  // ---------- 20 tests × 30 words each ----------
+  const testsData = [
+    ["Test 1 — Short a (CVC)",
+      ["cat","bat","cap","map","bag","rag","ram","jam","man","pan","hat","ham","tap","nap","sad","mad","dad","bad","van","can","cab","pat","fan","wax","yam","lap","tag","zap","lad","mat"],
+      "Focus: Short a (CVC) words"],
+    ["Test 2 — Short i (CVC)",
+      ["sit","hit","kit","pit","lit","bit","fit","win","pin","fin","lip","tip","zip","rim","him","dig","big","wig","fig","kid","sip","dip","rip","tin","lid","pig","six","mix","fix","hill"],
+      "Focus: Short i (CVC) words"],
+    ["Test 3 — Short o (CVC)",
+      ["dog","log","fog","hog","cop","pop","mop","top","pot","hot","cot","dot","box","fox","rod","rob","cob","job","bob","cot","pod","mom","tom","hop","lot","rock","sock","lock","moss"],
+      "Focus: Short o (CVC) words"],
+    ["Test 4 — Short e (CVC)",
+      ["bed","red","fed","led","web","hen","pen","ten","men","net","leg","peg","wet","get","jet","pet","beg","bet","set","let","den","met","vet","gem","vest","yell","bell","well","fell","shed"],
+      "Focus: Short e (CVC) words"],
+    ["Test 5 — Short u (CVC)",
+      ["sun","bun","fun","run","cup","pup","bus","bug","rug","mug","hut","cut","nut","tub","rub","gum","sum","mud","bud","cub","dun","jug","tug","hug","yum","cup","sud","suck","luck","duck"],
+      "Focus: Short u (CVC) words"],
+    ["Test 6 — Mixed CVC Review",
+      ["cat","dog","sun","hat","bus","pig","cow","fox","bat","cup","mop","pan","top","jam","rug","web","lid","map","pen","bed","man","ten","fin","log","box","cap","lip","pot","hut","bug"],
+      "Focus: Mixed review of CVC"],
+    ["Test 7 — Beginning blends",
+      ["flag","flat","flip","clap","clam","plan","plug","slug","brag","brim","crab","crib","drip","drop","frog","from","grip","gran","sled","slip","skid","skim","span","spin","stun","step","snip","smog","smile","brick"],
+      "Focus: Beginning blends (bl, cl, fl, pl, sl, br, cr, dr, fr, gr, sk, sp, st, sn, sm)"],
+    ["Test 8 — Final blends",
+      ["hand","sand","land","bend","send","went","tent","best","nest","desk","mask","task","lamp","camp","milk","silk","left","gift","help","belt","pond","kind","wind","cold","gold","told","milk","wolf","self","golf"],
+      "Focus: Final blends (nd, nt, st, sk, mp, lk, ft, lp, lt)"],
+    ["Test 9 — Digraphs 1 (sh/ch/ck)",
+      ["ship","shop","fish","cash","dish","chop","chin","chat","rich","bench","back","pack","duck","clock","sock","shock","shed","shopper","shell","check","chip","chess","shed","shop","shock","chick","chunk","rock","peck","sack"],
+      "Focus: sh, ch, ck"],
+    ["Test 10 — Digraphs 2 (th/wh/ng/qu)",
+      ["that","with","bath","math","moth","thin","thing","thank","thumb","whip","whiz","when","which","whale","wing","song","ring","long","hung","bang","quit","quick","quack","queen","quest","quote","quiz","quiet","thud","wharf"],
+      "Focus: th (voiced/voiceless), wh, ng, qu"],
+    ["Test 11 — Long a (a-e, ai, ay)",
+      ["cake","lake","bake","tape","cape","name","gate","late","rake","made","rain","train","paint","pail","chain","snail","brain","mail","grain","plain","day","play","tray","gray","clay","spray","stay","delay","relay","okay"],
+      "Focus: Long a patterns"],
+    ["Test 12 — Long i (i-e, igh, y)",
+      ["kite","bike","hike","like","time","five","nine","line","mine","slide","light","bright","night","right","sight","high","tight","fight","might","blight","try","fly","dry","cry","fry","shy","sky","reply","spry","July"],
+      "Focus: Long i patterns"],
+    ["Test 13 — Long o (o-e, oa, ow)",
+      ["home","bone","cone","nose","rope","hole","stone","phone","smoke","woke","boat","goat","coat","road","soak","foam","load","toad","goal","float","snow","grow","show","slow","blow","crow","bowl","tow","row","low"],
+      "Focus: Long o patterns"],
+    ["Test 14 — Long e (ee, ea, y)",
+      ["see","tree","bee","feet","seed","need","meet","week","deep","sleep","sea","leaf","meat","team","bead","read","clean","dream","steam","peach","bunny","funny","sunny","happy","candy","puppy","lady","baby","teddy","jelly"],
+      "Focus: Long e patterns"],
+    ["Test 15 — Long u / oo",
+      ["cube","flute","mule","huge","rude","tune","June","use","cute","true","moon","soon","noon","food","pool","zoo","cool","broom","spoon","goose","blue","glue","cue","rescue","tissue","tube","rule","uniform","music","unicorn"],
+      "Focus: u-e, oo, ue"],
+    ["Test 16 — R-controlled (ar)",
+      ["car","far","jar","star","scar","barn","yard","hard","card","park","dark","shark","march","farm","start","chart","part","smart","sharp","harp","bark","lark","mark","spark","tart","cart","dart","garb","yardarm","starch"],
+      "Focus: ar"],
+    ["Test 17 — R-controlled (or/ore/oar)",
+      ["for","fork","form","storm","short","north","horse","corn","born","thorn","more","core","store","score","shore","before","chore","snore","ignore","wore","oar","roar","soar","board","oars","boar","floor","door","poor","pour"],
+      "Focus: or/ore/oar"],
+    ["Test 18 — R-controlled (er/ir/ur)",
+      ["her","fern","term","perk","verb","germ","bird","girl","sir","first","third","stir","skirt","twirl","curl","burn","turn","fur","hurt","nurse","herd","serve","curve","purple","turtle","burger","summer","sugar","thirst","dirty"],
+      "Focus: er/ir/ur"],
+    ["Test 19 — Early sight words",
+      ["the","to","and","a","I","you","it","in","is","we","me","he","she","my","go","no","so","up","can","see","like","look","come","here","this","that","play","for","are","have"],
+      "Focus: Dolch pre-primer/primer mix"],
+    ["Test 20 — Action words",
+      ["run","sit","hop","jump","clap","read","draw","kick","smile","sing","dance","sleep","eat","drink","walk","talk","play","help","share","write","ride","swim","skate","hike","build","throw","catch","push","pull","wave"],
+      "Focus: verbs/actions"]
+  ];
+
+  // Emoji image map (picture hints). Fallback displays a star if not found.
+  const emojiMap = {
+    cat:"🐱", bat:"🦇", cap:"🧢", map:"🗺️", bag:"👜", jam:"🍓", hat:"🎩", van:"🚐",
+    sit:"🪑", kit:"🧰", pin:"📌", lip:"👄", zip:"🧷", dig:"⛏️", wig:"🎭", fan:"🌀", wax:"🕯️", yam:"🍠",
+    dog:"🐶", fog:"🌫️", mop:"🧹", top:"🪀", pot:"🍲", hot:"🔥", box:"📦", fox:"🦊", job:"💼", rock:"🪨", sock:"🧦", lock:"🔒",
+    bed:"🛏️", web:"🕸️", hen:"🐔", pen:"🖊️", ten:"🔟", leg:"🦵", jet:"🛩️", bell:"🔔", well:"⛲",
+    sun:"☀️", bun:"🥯", run:"🏃", cup:"☕", bus:"🚌", bug:"🐞", rug:"🪞", mug:"☕", hut:"🏚️", gum:"🍬", mud:"🪨", cub:"🐻", duck:"🦆",
+    pig:"🐷", cow:"🐮", lid:"🫙", frog:"🐸", sled:"🛷", wolf:"🐺", gold:"🥇",
+    flag:"🚩", plug:"🔌", clap:"👏", plan:"🗓️", crab:"🦀", drip:"💧", drop:"💧", grip:"✊", smile:"😊", brick:"🧱",
+    hand:"✋", sand:"🏖️", tent:"⛺", mask:"🎭", lamp:"💡", milk:"🥛", gift:"🎁", help:"🆘", belt:"🧣", pond:"🏞️", wind:"💨",
+    ship:"🚢", fish:"🐟", cash:"💵", dish:"🍽️", chop:"🔪", chin:"🙂", rich:"💰", bench:"🪑", sock:"🧦", clock:"🕰️",
+    that:"👉", with:"🤝", bath:"🛁", moth:"🦋", thin:"📏", whip:"🥄", pack:"🎒", back:"↩️", queen:"👑", quiz:"❓",
+    cake:"🍰", rain:"🌧️", train:"🚆", snail:"🐌", brain:"🧠", mail:"✉️", day:"📅", play:"🎲", tray:"🧰", gray:"⚪",
+    kite:"🪁", bike:"🚲", time:"⏰", nine:"9️⃣", light:"💡", night:"🌙", right:"➡️", sight:"👁️", sky:"🌌", July:"📅",
+    home:"🏠", bone:"🦴", nose:"👃", rope:"🪢", phone:"📱", boat:"⛵", goat:"🐐", coat:"🧥", road:"🛣️", snow:"❄️", grow:"🌱", show:"📺",
+    see:"👀", tree:"🌳", bee:"🐝", feet:"🦶", seed:"🌱", week:"📅", deep:"🌊", sleep:"😴", sea:"🌊", leaf:"🍃", meat:"🥩", team:"👥", dream:"💭", peach:"🍑", bunny:"🐰", funny:"😄",
+    cube:"🧊", flute:"🎼", mule:"🐴", moon:"🌕", food:"🍲", pool:"🏊", zoo:"🦒", cool:"😎", spoon:"🥄", blue:"🔵", glue:"🧴", unicorn:"🦄",
+    car:"🚗", star:"⭐", barn:"🏚️", yard:"🏡", park:"🏞️", shark:"🦈", farm:"🚜", chart:"📊", bark:"🐕", harp:"🎵",
+    fork:"🍴", storm:"⛈️", north:"🧭", corn:"🌽", thorn:"🌵", more:"➕", store:"🏬", shore:"🏖️", chore:"🧹", roar:"🦁", floor:"🪵", door:"🚪", pour:"🚰",
+    her:"👩", bird:"🐦", girl:"👧", sir:"🧑‍✈️", first:"1️⃣", third:"3️⃣", stir:"🥣", curl:"🌀", burn:"🔥", turn:"↩️", nurse:"🧑‍⚕️", turtle:"🐢", burger:"🍔", summer:"🌞", purple:"🟣",
+    the:"🔤", to:"➡️", and:"➕", a:"🅰️", I:"🧍", you:"👉", it:"📦", in:"📥", is:"✅", we:"👫", me:"🙂", he:"👦", she:"👧", my:"🙋", go:"🏁", no:"⛔", so:"🌀", up:"⬆️", can:"🥫",
+    like:"👍", look:"👀", come:"➡️", here:"📍", this:"👉", that:"👉", play:"🎲", for:"🎯", are:"🅰️", have:"📦",
+    sing:"🎤", dance:"🕺", sleep:"😴", eat:"🍽️", drink:"🥤", walk:"🚶", talk:"💬", write:"✍️", ride:"🚴", swim:"🏊", skate:"⛸️", hike:"🥾", build:"🧱", throw:"🏈", catch:"🥎", push:"🧱", pull:"🧲", wave:"👋"
+  };
+
+  // Verb/pronoun sets for sentence generation (spoken only)
+  const verbSet = new Set(["run","sit","hop","jump","clap","read","draw","kick","smile","sing","dance","sleep","eat","drink","walk","talk","play","help","share","write","ride","swim","skate","hike","build","throw","catch","push","pull","wave","go"]);
+  const pronounSet = new Set(["the","to","and","we","me","you","my","he","she","no","a","I","it","in","is","are","for","have","here","this","that"]);
+
+  function articleFor(word){
+    return /^[aeiou]/i.test(word) ? "an" : "a";
+  }
+  function makeSentence(word){
+    if (pronounSet.has(word)) {
+      switch(word){
+        case "the": return `I can read the word “the”.`;
+        case "to": return `We walk to the park.`;
+        case "and": return `I like milk and cake.`;
+        case "we": return `We can play.`;
+        case "me": return `Look at me.`;
+        case "you": return `You can do it.`;
+        case "my": return `This is my bag.`;
+        case "he": return `He can run.`;
+        case "she": return `She can hop.`;
+        case "no": return `I said no.`;
+        case "a": return `I see a cat.`;
+        case "I": return `I can do it.`;
+        case "it": return `It is big.`;
+        case "in": return `Put it in the box.`;
+        case "is": return `The sun is up.`;
+        case "are": return `We are friends.`;
+        case "for": return `This is for you.`;
+        case "have": return `I have a book.`;
+        case "here": return `Come here.`;
+        case "this": return `This is fun.`;
+        case "that": return `I like that.`;
+      }
+    }
+    if (verbSet.has(word)) { return `I can ${word}.`; }
+    return `I see ${articleFor(word)} ${word}.`;
+  }
+
+  // ---------- State ----------
+  const testPicker = document.getElementById('testPicker');
+  const scope = document.getElementById('scope');
+  const lastScoreEl = document.getElementById('lastScore');
+  const indexNow = document.getElementById('indexNow');
+  const indexTotal = document.getElementById('indexTotal');
+  const bar = document.getElementById('bar');
+  const speakBtn = document.getElementById('speakBtn');
+  const repeatBtn = document.getElementById('repeatBtn');
+  const slowBtn = document.getElementById('slowBtn');
+  const startBtn = document.getElementById('startBtn');
+  const nextTestBtn = document.getElementById('nextTestBtn');
+  const showPics = document.getElementById('showPics');
+  const emojiBubble = document.getElementById('emojiBubble');
+  const answer = document.getElementById('answer');
+  const checkBtn = document.getElementById('checkBtn');
+  const skipBtn = document.getElementById('skipBtn');
+  const feedback = document.getElementById('feedback');
+  const liveScore = document.getElementById('liveScore');
+  const summaryCard = document.getElementById('summaryCard');
+  const summaryStats = document.getElementById('summaryStats');
+  const mistakeWrap = document.getElementById('mistakeWrap');
+  const mistakeList = document.getElementById('mistakeList');
+  const ttsStatus = document.getElementById('ttsStatus');
+  const celebrate = document.getElementById('celebrate');
+
+  let testIndex = 0;
+  let words = [];
+  let i = 0;
+  let score = 0;
+  let mistakes = [];
+  let currentVoiceRate = 0.9;
+  let currentThemeClass = "theme-1";
+
+  // ---------- Build picker ----------
+  testsData.forEach((t, idx)=>{
+    const opt = document.createElement('option');
+    opt.value = String(idx);
+    opt.textContent = t[0];
+    testPicker.appendChild(opt);
+  });
+
+  function setThemeByIndex(idx){
+    const body = document.body;
+    body.classList.remove(currentThemeClass);
+    const themeNum = (idx % 20) + 1; // 1..20
+    currentThemeClass = "theme-" + themeNum;
+    body.classList.add(currentThemeClass);
+  }
+
+  function setTest(idx){
+    testIndex = idx;
+    testPicker.value = String(idx);
+    words = [...testsData[testIndex][1]];
+    indexTotal.textContent = words.length;
+    scope.innerHTML = `<b>${testsData[testIndex][0]}:</b> ${testsData[testIndex][2]}`;
+    loadLastScoreBadge();
+    setThemeByIndex(idx);
+  }
+  setTest(0);
+
+  testPicker.addEventListener('change', e=>{
+    setTest(parseInt(e.target.value,10));
+    startTest();
+  });
+  nextTestBtn.addEventListener('click', ()=>{
+    const next = (testIndex+1)%testsData.length;
+    setTest(next);
+    startTest();
+  });
+
+  function loadLastScoreBadge(){
+    const key = 'spelling:last:'+testsData[testIndex][0];
+    const saved = localStorage.getItem(key);
+    lastScoreEl.textContent = saved ? `Last score: ${saved}` : '';
+  }
+
+  // ---------- TTS ----------
+  function speak(text, rate=currentVoiceRate){
+    if(!('speechSynthesis' in window)){ ttsStatus.textContent='TTS not supported.'; return; }
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = rate; u.pitch = 1.1;
+    u.onstart = ()=> ttsStatus.textContent='🔊 Speaking…';
+    u.onend = ()=> ttsStatus.textContent='';
+    speechSynthesis.speak(u);
+  }
+  function currentWord(){ return words[i] || ''; }
+
+  function speakWordAndSentence(rate=currentVoiceRate){
+    const w = currentWord();
+    const s = makeSentence(w);
+    const combined = `${w}. In a sentence: ${s}. ${w}.`;
+    speak(combined, rate);
+  }
+
+  // ---------- UI helpers ----------
+  function updateEmoji(){
+    const w = currentWord();
+    const em = emojiMap[w];
+    emojiBubble.textContent = (showPics.checked && em) ? em : "⭐";
+  }
+
+  function resetUI(){
+    feedback.className='status';
+    feedback.textContent='';
+    answer.value='';
+    answer.focus();
+    liveScore.textContent = `Score: ${score}`;
+    indexNow.textContent = String(Math.min(i+1, words.length));
+    bar.style.width = (words.length ? (i/words.length)*100 : 0) + '%';
+    summaryCard.style.display='none';
+    updateEmoji();
+  }
+
+  function startTest(){
+    i=0; score=0; mistakes=[]; currentVoiceRate=0.9;
+    resetUI();
+    speak("Let's start! Listen to the word in a sentence.");
+    setTimeout(()=> speakWordAndSentence(), 600);
+  }
+
+  function mark(ok, typed){
+    if(ok){
+      feedback.className='status ok';
+      feedback.textContent='Correct';
+      score++; liveScore.textContent=`Score: ${score}`;
+    } else {
+      feedback.className='status bad';
+      feedback.textContent='Incorrect';
+      mistakes.push({word: currentWord(), typed});
+    }
+  }
+  function check(){
+    const typed = (answer.value||'').trim();
+    if(!typed){ answer.focus(); return; }
+    const ok = typed.toLowerCase() === currentWord().toLowerCase();
+    mark(ok, typed);
+    setTimeout(nextWord, ok?650:900);
+  }
+  function skip(){
+    mark(false,'(skipped)');
+    setTimeout(nextWord,600);
+  }
+  function nextWord(){
+    i++;
+    if(i>=words.length){ finishTest(); return; }
+    resetUI();
+    speakWordAndSentence();
+  }
+
+  // Celebration (confetti + overlay + voice)
+  function celebratePerfect(){
+    // overlay
+    celebrate.style.display = 'flex';
+    setTimeout(()=> { celebrate.style.display = 'none'; }, 3500);
+    // confetti
+    const colors = ['#f87171','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6'];
+    const pieces = 120;
+    for(let k=0;k<pieces;k++){
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random()*100 + 'vw';
+      c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      c.style.transform = `translateY(-10px) rotate(${Math.random()*360}deg)`;
+      const dur = 1.8 + Math.random()*1.4;
+      c.style.animationDuration = dur+'s';
+      c.style.width = (6 + Math.random()*8)+'px';
+      c.style.height = (8 + Math.random()*10)+'px';
+      document.body.appendChild(c);
+      setTimeout(()=> c.remove(), dur*1000);
+    }
+    // voice
+    speak("Perfect score! Amazing work!", 1.0);
+  }
+
+  function finishTest(){
+    bar.style.width='100%'; feedback.className='status'; feedback.textContent='';
+    const total=words.length; const pct=Math.round((score/total)*100);
+    const name=testsData[testIndex][0];
+    localStorage.setItem('spelling:last:'+name, `${score}/${total} (${pct}%)`);
+    loadLastScoreBadge();
+    summaryCard.style.display='block';
+    summaryStats.textContent = `You scored ${score} out of ${total} — ${pct}%.`;
+    if(mistakes.length){
+      mistakeWrap.style.display='block'; mistakeList.innerHTML='';
+      mistakes.forEach(m=>{
+        const li=document.createElement('li');
+        li.textContent = `You typed “${m.typed}” — correct is “${m.word}”.`;
+        mistakeList.appendChild(li);
+      });
+    } else {
+      mistakeWrap.style.display='none';
+      // Celebrate perfect score!
+      celebratePerfect();
+    }
+  }
+
+  // ---------- Events ----------
+  startBtn.addEventListener('click', startTest);
+  speakBtn.addEventListener('click', ()=> speakWordAndSentence());
+  repeatBtn.addEventListener('click', ()=> speakWordAndSentence(currentVoiceRate));
+  slowBtn.addEventListener('click', ()=>{ currentVoiceRate=Math.max(0.6,currentVoiceRate-0.1); speakWordAndSentence(currentVoiceRate); });
+  checkBtn.addEventListener('click', check);
+  skipBtn.addEventListener('click', skip);
+  answer.addEventListener('keydown', e=>{ if(e.key==='Enter'){ check(); } });
+
+  showPics.addEventListener('change', ()=>{ updateEmoji(); });
+
+  // Ready
+  resetUI();
+})();
+</script>
+</body>
+</html>
